@@ -1,0 +1,28 @@
+import re
+
+def extract_emails():
+    input_file = input("Enter input text file path: ")
+    output_file = input("Enter output file path for emails: ")
+    
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    unique_emails = set()
+    
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+            emails = re.findall(email_pattern, content)
+            unique_emails.update(emails)
+        
+        with open(output_file, 'w') as f:
+            for email in sorted(unique_emails):
+                f.write(email + '\n')
+        
+        print(f"Found {len(unique_emails)} emails. Saved to {output_file}")
+    
+    except FileNotFoundError:
+        print("Error: File not found. Please check the path.")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+# Run the function
+extract_emails()
